@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif; */
+  /* font-family: "Roboto" */
+  font-family: "Archivo";
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  /* background: #f1f1f1; */
+  background: #202329;
+}
+
+::-webkit-scrollbar-thumb {
+  /* background: #888; */
+  background: #2e333d;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body {
+  /* background-image: url("/bg.jpg"); */
+  /* background-repeat: repeat-x; */
+  /* background-size: auto 100vh; */
+  /* background-position: top left; */
+  /* background-color: #202329; */
+  /* background-color: #0F4B81; */
+  background-color: #131313;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+  overflow: none;
+}
+
+.w-90vw {
+  width: 90vw;
+}
+
+.h-90vh {
+  height: 90vh;
+}
+
+.backdropFilterSat {
+  backdrop-filter: blur(0px) saturate(250%);
+}
+
+.chatFlex {
+  flex: 2.2;
+}
+
+.listFlex {
+  flex: 1;
+}
+
+.detailFlex {
+  flex: 0.8;
+}
+
+.message {
+  &.own {
+    align-self: flex-end;
+
+    .texts {
+      p {
+        /* background-color: #5183fe; */
+        padding: 1px 15px 15px 10px;
+        background-color: #fbbf24;
+        align-self: flex-end;
+        border-bottom-left-radius: 0.5rem;
+        border-bottom-right-radius: 0 0;
+      }
+    }
+  }
+
+  .texts {
+    p {
+      padding: 1px 5px 15px 10px;
+      align-self: flex-start;
+      /* background-color: rgba(17, 25, 40, 0.75); */
+      background-color: #2e333d;
+      border-bottom-left-radius: 0 0;
+    }
+  }
+}
+
+.addUserBDF {
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(46, 51, 61, 0.4);
+}
+
+.max-w-fit-plus-30 {
+  max-width: calc(fit-content + 50px);
+}
