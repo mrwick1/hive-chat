@@ -1,5 +1,4 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import "react-perfect-scrollbar/dist/css/styles.css";
 import {
   arrayUnion,
   doc,

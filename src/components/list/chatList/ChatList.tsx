@@ -4,9 +4,7 @@ import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
-import Lottie from "react-lottie";
-
-import eyeAnimationData from "../../../../public/Eye.json";
+import { MessageCircle } from "lucide-react";
 
 interface User {
   username: string;
@@ -129,15 +127,6 @@ function ChatList() {
     };
   }, []);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: eyeAnimationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   return (
     <div className={`flex-1 ${filteredChats.length > 0 ? "overflow-y-auto" : "overflow-hidden"}`}>
       <div className="flex items-center gap-5 p-5 border-b-2 border-none">
@@ -217,16 +206,9 @@ function ChatList() {
             </div>
           ))
         ) : (
-          <div className="">
-            <p className="">Oh no!! It's so lonely here..</p>
-            <div className="text-center">
-              <span className="inline-block">
-                <Lottie options={defaultOptions} height={24} width={24} />
-              </span>
-              <span className="inline-block">
-                <Lottie options={defaultOptions} height={24} width={24} />
-              </span>
-            </div>
+          <div className="flex flex-col items-center gap-2 text-textSub">
+            <MessageCircle size={32} />
+            <p>No conversations yet</p>
           </div>
         )}
       </div>
