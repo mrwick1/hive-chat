@@ -1,17 +1,8 @@
 import { create } from 'zustand'
 import { db } from './firebase'
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { User } from '../types';
 
-interface User {
-    username: string;
-    email: string;
-    avatar: string;
-    about: string;
-    id: string;
-    status: string;
-    blocked: string[];
-  }
-  
   interface UserStore {
     currentUser: User | null;
     isLoading: boolean;

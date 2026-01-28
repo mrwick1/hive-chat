@@ -5,26 +5,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 import { MessageCircle } from "lucide-react";
-
-interface User {
-  username: string;
-  email: string;
-  avatar: string;
-  about: string;
-  id: string;
-  status: string;
-  blocked: string[];
-}
-
-interface ChatItem {
-  username: string;
-  receiverId: string;
-  chatId: string;
-  lastMessage: string;
-  updatedAt: number;
-  user: User;
-  isSeen: boolean;
-}
+import { ChatItem } from "../../../types";
 
 function ChatList() {
   const [chats, setChats] = useState<ChatItem[]>([]);

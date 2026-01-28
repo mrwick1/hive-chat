@@ -18,28 +18,10 @@ import { db } from "../../lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import upload from "../../lib/upload";
-
-interface Message {
-  senderId: string | undefined;
-  text: string;
-  img?: string;
-  createdAt: Timestamp;
-  editable: boolean;
-}
+import { Message, UserChatsData } from "../../types";
 
 interface Chat {
   messages: Message[];
-}
-
-interface ChatData {
-  chatId: string;
-  lastMessage: string;
-  isSeen: boolean;
-  updatedAt: number;
-}
-
-interface UserChatsData {
-  chats: ChatData[];
 }
 
 interface ChatProps {

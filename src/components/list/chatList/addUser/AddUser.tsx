@@ -1,8 +1,7 @@
 import {
-    arrayUnion,
+  arrayUnion,
   collection,
   doc,
-  DocumentData,
   getDocs,
   query,
   serverTimestamp,
@@ -13,14 +12,7 @@ import {
 import { db } from "../../../../lib/firebase";
 import { useState } from "react";
 import { useUserStore } from "../../../../lib/userStore";
-
-interface User {
-  username: string;
-  avatar?: string;
-  email: string;
-  id: string;
-  blocked: string[];
-}
+import { User } from "../../../../types";
 
 interface AddUserProps {
     setAddMode: (value: boolean) => void;
@@ -45,17 +37,8 @@ const AddUser = ({setAddMode}: AddUserProps) => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0].data() as DocumentData;
-
-        const userData: User = {
-          username: userDoc.username,
-          email: userDoc.email,
-          id: userDoc.id,
-          blocked: userDoc.blocked,
-          avatar: userDoc.avatar || "./avatar.png",
-        };
-
-        setUser(userData);
+        const userDoc = querySnapshot.docs[0].data();
+        setUser(userDoc as User);
       }
     } catch (err) {
       if (err instanceof Error) {
