@@ -40,18 +40,12 @@ useEffect(() => {
       updateUserStatus(currentUser.id, "Away");
     }
 
-    // const handleWindowClose = () => {
-    //   updateUserStatus(currentUser.id, "offline")
-    // }
-
     window.addEventListener("focus", handleTabFocus);
     window.addEventListener("blur", handleTabBlur);
-    // window.addEventListener("beforeunload", handleWindowClose);
 
     return () => {
       window.removeEventListener("focus", handleTabFocus);
-    window.removeEventListener("blur", handleTabBlur);
-    // window.removeEventListener("beforeunload", handleWindowClose);
+      window.removeEventListener("blur", handleTabBlur);
     }
   }, [currentUser]);
 

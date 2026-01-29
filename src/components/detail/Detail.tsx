@@ -24,8 +24,8 @@ function Detail({isDetailOpen}: DetailProps) {
       })
 
       changeBlock()
-    } catch (error) {
-      if(error instanceof Error) console.log(error);
+    } catch {
+      // block action failed silently
     }
   }
 

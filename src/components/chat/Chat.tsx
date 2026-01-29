@@ -29,14 +29,6 @@ interface ChatProps {
   isDetailOpen: boolean;
 }
 
-// const updateUserStatus = async (uid: string, status: string) => {
-//   const userRef = doc(db, "users", uid);
-//   await updateDoc(userRef, {
-//     status,
-//     lastSeen: serverTimestamp(),
-//   });
-// };
-
 function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
   const [openEmoji, setEmojiOpen] = useState<boolean>(false);
   const [chat, setChat] = useState<Chat | undefined>(undefined);
@@ -49,7 +41,6 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
     url: "",
   });
   const [editingMessage, setEditingMessage] = useState<Message | null>(null);
-  // const [input, setInput] = useState<string>("");
 
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } =
     useChatStore();
@@ -77,13 +68,10 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
   const handleImageLoad = () => scrollToBottom();
 
   const handleEmoji = (e: EmojiClickData) => {
-    // console.log(e);
-
     setText((prev) => prev + e.emoji);
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    // setEmojiOpen(false);
   };
 
   useEffect(() => {
@@ -143,11 +131,9 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
                 );
 
                 await updateDoc(chatRef, { messages: updatedMessages });
-              } else {
-                console.error("Chat not found");
               }
-            } catch (error) {
-              console.error("Error updating chat", error);
+            } catch {
+              // editable timeout failed silently
             }
           }, 15 * 60 * 1000);
           localStorage.setItem(
@@ -179,10 +165,8 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
             }
           }
         });
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error);
-        }
+      } catch {
+        // send failed silently
       }
 
       setImg({
@@ -232,8 +216,8 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
 
               await updateDoc(chatRef, { messages: updatedMessages });
             }
-          } catch (error) {
-            console.error("Error updating chat", error);
+          } catch {
+            // editable timeout failed silently
           }
         }, 15 * 60 * 1000);
         localStorage.setItem(
@@ -264,10 +248,8 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
           }
         }
       });
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-      }
+    } catch {
+      // image upload failed silently
     }
   };
 
@@ -298,23 +280,10 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
 
         await updateDoc(chatRef, { messages: updatedMessages });
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-      }
+    } catch {
+      // edit failed silently
     }
   };
-
-  // const handleEditSubmit = async () => {
-  //   if (editingMessage) {
-  //     await handleEditMessage(
-  //       editingMessage.createdAt.nanoseconds.toString(),
-  //       text
-  //     );
-  //     setEditingMessage(null);
-  //     setText("");
-  //   }
-  // };
 
   const handleDeleteMessage = async (messageId: string) => {
     if (!chatId) return;
@@ -330,10 +299,8 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
 
         await updateDoc(chatRef, { messages: updatedMessages });
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-      }
+    } catch {
+      // delete failed silently
     }
   };
 
@@ -348,8 +315,6 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
   const infoDetailHandler = (): void => {
     setIsDetailOpen((prev: boolean) => !prev);
   };
-
-  // console.log(chat);
 
   const formatDate = (timestamp: Timestamp) => {
     const messageDate = timestamp.toDate();
@@ -370,7 +335,7 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
 
     if (isToday) return "Today";
     else if (isYesterday) return "Yesterday";
-    else if (messageDate.getFullYear === today.getFullYear)
+    else if (messageDate.getFullYear() === today.getFullYear())
       return messageDate.toLocaleDateString("en-US", {
         month: "long", // "January"
         day: "numeric", // "10"
@@ -523,26 +488,6 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
                             minute: "2-digit",
                           })}
                       </span>
-                      {/* {message.editable && (
-                      <button onClick={() => setEditingMessage(message)}>
-                        Edit
-                      </button>
-                    )}
-                    {message.senderId === currentUser?.id && (
-                      <button
-                        onClick={() => {
-                          const confirmed = window.confirm(
-                            "Are you sure you want to delete this message?"
-                          );
-                          if (confirmed)
-                            handleDeleteMessage(
-                              message.createdAt.nanoseconds.toString()
-                            );
-                        }}
-                      >
-                        Delete
-                      </button>
-                    )} */}
                       {message.senderId === currentUser?.id && (
                         <img
                           className="w-[10px] h-[10px] absolute bottom-[2.5px] right-0 cursor-pointer inline-block ml-1 mb-1"
@@ -655,12 +600,6 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            {/* <button
-              className="bg-sendBtn text-white px-5 py-1.5 border-none rounded cursor-pointer"
-              onClick={handleEditSubmit}
-            >
-              Submit Edit
-            </button> */}
             <button
               className="bg-gray-500 text-white px-5 py-1.5 border-none rounded cursor-pointer"
               onClick={() => setEditingMessage(null)}

@@ -32,8 +32,8 @@ const EditAbout = ({setIsEditAboutOpen}: EditAboutProps) => {
       });
 
       setIsEditAboutOpen(false);
-    } catch (error) {
-      if (error instanceof Error) console.log(error);
+    } catch {
+      // update failed silently
     }
   };
 

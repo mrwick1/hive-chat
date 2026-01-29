@@ -40,10 +40,8 @@ const AddUser = ({setAddMode}: AddUserProps) => {
         const userDoc = querySnapshot.docs[0].data();
         setUser(userDoc as User);
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err);
-      }
+    } catch {
+      // search failed silently
     }
   };
 
@@ -76,14 +74,10 @@ try {
         })
     })
 
-    // console.log(newChatRef.id);
     setAddMode(false);
-    
-} catch (error) {
-    if(error instanceof Error) {
-        console.log(error);
-        
-    }
+
+} catch {
+    // add user failed silently
 }
   }
 

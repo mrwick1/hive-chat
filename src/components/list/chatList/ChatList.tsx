@@ -32,8 +32,6 @@ function ChatList() {
           return { ...item, user };
         });
         const chatData = await Promise.all(promises);
-        // console.log(chatData);
-
         setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
       }
     );
@@ -63,17 +61,13 @@ function ChatList() {
           chats: userChats,
         });
         changeChat(chat.chatId, chat.user);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error);
-        }
+      } catch {
+        // chat selection failed silently
       }
     }
   }
 
   useEffect(() => {
-    // console.log("triggered");
-
     if (input) {
       const filtered = chats.filter((c) =>
         c.user.username
@@ -86,8 +80,6 @@ function ChatList() {
       setFilteredChats(chats);
     }
   }, [input, chats]);
-
-  // console.log(chats);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
