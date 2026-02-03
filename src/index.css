@@ -1,7 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,47 +6,33 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Archivo";
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #202329;
+  background: #111111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2e333d;
-  border-radius: 10px;
+  background: #2A2A2A;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #444;
 }
 
 body {
-  background-color: #131313;
+  background-color: #0A0A0A;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  color: white;
+  color: #E8E8E8;
   overflow: hidden;
-}
-
-.w-90vw {
-  width: 90vw;
-}
-
-.h-90vh {
-  height: 90vh;
-}
-
-.backdropFilterSat {
-  backdrop-filter: blur(0px) saturate(250%);
+  font-family: "Space Grotesk Variable", system-ui, sans-serif;
 }
 
 .chatFlex {
@@ -72,10 +54,8 @@ body {
     .texts {
       p {
         padding: 1px 15px 15px 10px;
-        background-color: #fbbf24;
+        background-color: #0055FF;
         align-self: flex-end;
-        border-bottom-left-radius: 0.5rem;
-        border-bottom-right-radius: 0 0;
       }
     }
   }
@@ -84,15 +64,14 @@ body {
     p {
       padding: 1px 5px 15px 10px;
       align-self: flex-start;
-      background-color: #2e333d;
-      border-bottom-left-radius: 0 0;
+      background-color: #1A1A1A;
     }
   }
 }
 
 .addUserBDF {
   backdrop-filter: saturate(180%) blur(20px);
-  background-color: rgba(46, 51, 61, 0.4);
+  background-color: rgba(26, 26, 26, 0.8);
 }
 
 .max-w-fit-plus-30 {
