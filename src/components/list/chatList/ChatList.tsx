@@ -102,12 +102,12 @@ function ChatList() {
 
   return (
     <div className={`flex-1 ${filteredChats.length > 0 ? "overflow-y-auto" : "overflow-hidden"}`}>
-      <div className="flex items-center gap-5 p-5 border-b-2 border-none">
+      <div className="flex items-center gap-5 p-5 border-b border-border">
         {filteredChats.length > 0 && (
-          <div className="flex-1 bg-searchBar flex items-center gap-5 rounded-lg p-2.5">
+          <div className="flex-1 bg-surface-overlay border border-border flex items-center gap-5 p-2.5">
             <img className="w-5 h-5" src="./search.png" alt="" />
             <input
-              className="bg-transparent border-none outline-none text-white flex-1"
+              className="bg-transparent border-none outline-none text-fg flex-1"
               type="text"
               placeholder="Search"
               onChange={(e) => setInput(e.target.value)}
@@ -116,7 +116,7 @@ function ChatList() {
         )}
         {filteredChats.length > 0 ? (
           <img
-            className="w-9 h-9 bg-searchBar p-2.5 rounded-lg cursor-pointer"
+            className="w-9 h-9 bg-surface-overlay border border-border p-2.5 cursor-pointer"
             src={addMode ? "./minus.png" : "./plus.png"}
             onClick={() => setAddMode((prev) => !prev)}
             alt=""
@@ -124,11 +124,11 @@ function ChatList() {
           />
         ) : (
           <div className="mx-auto">
-            <p className="inline-block text-white mr-5">
+            <p className="inline-block text-fg mr-5">
               Click on the + icon and search for a user
             </p>
             <img
-              className="w-9 h-9 inline-block bg-searchBar p-2.5 rounded-lg cursor-pointer"
+              className="w-9 h-9 inline-block bg-surface-overlay border border-border p-2.5 cursor-pointer"
               src={addMode ? "./minus.png" : "./plus.png"}
               onClick={() => setAddMode((prev) => !prev)}
               alt=""
@@ -145,10 +145,10 @@ function ChatList() {
         {filteredChats.length > 0 ? (
           filteredChats.map((chat) => (
             <div
-              className={`flex self-center  w-[90%] items-center gap-5 px-5 py-3 cursor-pointer border-b-2 border-none rounded-2xl ${
+              className={`flex self-center w-[90%] items-center gap-5 px-5 py-3 cursor-pointer border-b border-border ${
                 chat?.isSeen
-                  ? "bg-transparent hover:bg-searchBar"
-                  : "bg-blue-400"
+                  ? "bg-transparent hover:bg-surface-overlay"
+                  : "bg-accent"
               }`}
               key={chat.chatId}
               onClick={() => handleSelect(chat)}
@@ -170,7 +170,7 @@ function ChatList() {
                 </span>
                 <p
                   className={`text-sm font-normal whitespace-nowrap 2xl:max-w-[280px] xl:max-w-[200px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[50px] max-w-[30px] text-ellipsis overflow-hidden ${
-                    chat?.isSeen ? "text-textSub" : "text-white"
+                    chat?.isSeen ? "text-fg-muted" : "text-fg"
                   }`}
                 >
                   {chat.lastMessage}
@@ -179,7 +179,7 @@ function ChatList() {
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center gap-2 text-textSub">
+          <div className="flex flex-col items-center gap-2 text-fg-muted">
             <MessageCircle size={32} />
             <p>No conversations yet</p>
           </div>

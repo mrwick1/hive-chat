@@ -38,24 +38,24 @@ const EditAbout = ({setIsEditAboutOpen}: EditAboutProps) => {
   };
 
   return (
-    <div className="editAbout w-max h-max p-10 addUserBDF rounded-2xl absolute top-0 bottom-0 left-0 right-0  m-auto z-10">
+    <div className="editAbout w-max h-max p-10 bg-surface-overlay border border-border absolute top-0 bottom-0 left-0 right-0 m-auto z-10">
       <form
         action=""
         className="flex flex-col gap-4"
         onSubmit={handleAboutChange}
       >
-        <label htmlFor="about" className="">
-          Add About{" "}
+        <label htmlFor="about" className="text-fg">
+          Add About
         </label>
         <input
           type="text"
           placeholder="Eg: I am available"
           autoFocus
           name="about"
-          className="px-5 py-3 w-[300px] text-black rounded-lg border-none outline-none"
+          className="px-5 py-3 w-[300px] bg-surface-raised text-fg border border-border outline-none"
         />
 
-        <button className="px-2 py-2 w-[70px] rounded-lg bg-blue-600 self-end text-white border-none cursor-pointer">
+        <button className="px-2 py-2 w-[70px] bg-accent self-end text-fg border-none cursor-pointer">
           Save
         </button>
       </form>

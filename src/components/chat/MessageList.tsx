@@ -49,7 +49,7 @@ function MessageList({
           <div key={message?.createdAt.nanoseconds}>
             <div className="flex justify-center">
               {showDateSeparator && (
-                <p className="rounded-xl addUserBDF my-5 text-sm px-3 py-1">
+                <p className="bg-surface-overlay border border-border my-5 text-sm px-3 py-1 font-mono text-fg-muted">
                   {formatDate(message.createdAt)}
                 </p>
               )}
@@ -77,7 +77,7 @@ function MessageList({
         <div className="message own">
           <div className="texts">
             <img
-              className="max-w-[380px] max-h-[244px] rounded-lg object-cover"
+              className="max-w-[380px] max-h-[244px] object-cover"
               onLoad={handleImageLoad}
               src={imgPreviewUrl}
               alt=""

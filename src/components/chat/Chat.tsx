@@ -244,7 +244,7 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
   };
 
   return (
-    <div className="chatFlex border-r-2 border-bgBlacker h-full w-[50%] flex flex-col">
+    <div className="chatFlex border-r border-border h-full w-[50%] flex flex-col">
       <ChatHeader
         user={user}
         otherUserStatus={otherUserStatus}

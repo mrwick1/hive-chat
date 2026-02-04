@@ -82,16 +82,16 @@ try {
   }
 
   return (
-    <div className="addUser w-max h-max p-7 addUserBDF rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-10 ">
+    <div className="addUser w-max h-max p-7 bg-surface-overlay border border-border absolute top-0 bottom-0 left-0 right-0 m-auto z-10">
       <form action="" className="flex gap-5" onSubmit={handleSearch}>
         <input
           type="text"
           placeholder="Username"
           name="username"
           autoFocus
-          className="px-5 text-black rounded-lg border-none outline-none"
+          className="px-5 py-2 bg-surface-raised text-fg border border-border outline-none"
         />
-        <button className="px-5 py-2 rounded-lg bg-blue-600 text-white border-none cursor-pointer">
+        <button className="px-5 py-2 bg-accent text-fg border-none cursor-pointer">
           Search
         </button>
       </form>
@@ -103,9 +103,9 @@ try {
               src={user.avatar || "./avatar.png"}
               alt=""
             />
-            <span>{user.username}</span>
+            <span className="text-fg">{user.username}</span>
           </div>
-          <button className="px-3 py-1 rounded-lg bg-blue-600 text-white border-none cursor-pointer" onClick={handleAddUser}>
+          <button className="px-3 py-1 bg-accent text-fg border-none cursor-pointer" onClick={handleAddUser}>
             Add User
           </button>
         </div>

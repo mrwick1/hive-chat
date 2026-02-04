@@ -52,16 +52,16 @@ function UserInfo() {
 
   return (
     <div>
-      <div className="p-5 flex items-center justify-between">
+      <div className="p-5 flex items-center justify-between border-b border-border">
         <div className="flex items-center gap-5">
           <img
-            className="w-[50px] h-[50px] min-w-[50px] min-h-[50px] rounded-[50%] object-cover"
+            className="w-[50px] h-[50px] min-w-[50px] min-h-[50px] rounded-full object-cover"
             src={currentUser?.avatar || "./avatar.png"}
             alt=""
           />
           <div className="flex flex-col">
-            <h2 className="text-xl font-bold">{currentUser?.username}</h2>
-            <p className="text-xs font-normal text-gray-400">
+            <h2 className="text-xl font-bold text-fg">{currentUser?.username}</h2>
+            <p className="text-xs font-normal text-fg-muted">
               {currentUser?.about}
             </p>
           </div>
@@ -69,17 +69,17 @@ function UserInfo() {
         <div className="flex gap-5">
           <div className="relative" ref={menuRef}>
             <button
-              className="cursor-pointer bg-transparent border-none text-white"
+              className="cursor-pointer bg-transparent border-none text-fg"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               ref={menuButtonRef}
             >
               <MoreVertical size={20} />
             </button>
             {isMenuOpen && (
-              <div className="absolute right-0 z-10 mt-1 w-32 rounded-md bg-searchBar shadow-lg">
+              <div className="absolute right-0 z-10 mt-1 w-32 bg-surface-overlay border border-border shadow-lg">
                 <div className="py-1">
                   <p
-                    className="block px-4 py-1 text-sm text-white cursor-pointer hover:bg-chatscreen2"
+                    className="block px-4 py-1 text-sm text-fg cursor-pointer hover:bg-surface-raised"
                     onClick={() => {
                       optionClickHandler();
                       setIsMenuOpen(false);
@@ -92,7 +92,7 @@ function UserInfo() {
             )}
           </div>
           <button
-            className="cursor-pointer bg-transparent border-none text-white"
+            className="cursor-pointer bg-transparent border-none text-fg"
             onClick={handleAbout}
             ref={editButtonRef}
           >

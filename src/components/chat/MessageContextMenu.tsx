@@ -18,14 +18,14 @@ function MessageContextMenu({
 }: MessageContextMenuProps) {
   return (
     <div
-      className="absolute right-0 mt-3 w-32 addUserBDF rounded-md shadow-lg z-10"
+      className="absolute right-0 mt-3 w-32 bg-surface-overlay border border-border shadow-lg z-10"
       ref={menuRef}
     >
       <ul className="py-1">
         {(message.editable ?? false) && (
           <li>
             <button
-              className="block px-2 py-2 text-sm text-white hover:bg-addUserBDFH w-full text-left"
+              className="block px-2 py-2 text-sm text-fg hover:bg-surface-raised w-full text-left"
               onClick={() => {
                 onEdit(message);
                 onClose();

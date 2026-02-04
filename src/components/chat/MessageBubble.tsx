@@ -38,18 +38,18 @@ function MessageBubble({
           <img
             className={`max-w-[380px] max-h-[244px] ${
               isOwn ? "message own" : "message"
-            } flex gap-5 rounded-lg object-cover`}
+            } flex gap-5 object-cover`}
             onLoad={onImageLoad}
             src={message.img}
           />
         )}
-        <p className="rounded-lg sm:max-w-[60%] max-w-fit max-w-fit-plus-30 min-w-28 min-h-6 relative">
+        <p className="sm:max-w-[60%] max-w-fit max-w-fit-plus-30 min-w-28 min-h-6 relative">
           <span className="message-text">{message.text}</span>
           <span className="flex items-center">
             <span
               className={`mx-2 absolute bottom-[2px] ${
                 isOwn ? "right-2" : "right-0"
-              } text-xxs text-slate-200`}
+              } text-xxs text-fg-muted font-mono`}
             >
               {message.createdAt &&
                 message.createdAt.toDate().toLocaleTimeString([], {

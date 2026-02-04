@@ -60,7 +60,7 @@ function ChatInput({
   }, []);
 
   return (
-    <div className="bottom px-5 py-2 flex items-center justify-between border-t-2 border-none gap-5 mt-auto">
+    <div className="bottom px-5 py-2 flex items-center justify-between border-t border-border gap-5 mt-auto">
       <div className="icons flex gap-5">
         <label htmlFor="file">
           <img className="w-5 h-5 cursor-pointer" src="./img.png" alt="" />
@@ -75,7 +75,7 @@ function ChatInput({
       {editingMessage ? (
         <div className="flex-1 flex items-center gap-2">
           <input
-            className="flex-1 bg-searchBar border-none outline-none text-white p-4 text-base rounded-lg disabled:cursor-not-allowed"
+            className="flex-1 bg-surface-overlay border border-border outline-none text-fg p-4 text-base disabled:cursor-not-allowed"
             type="text"
             autoFocus
             value={text}
@@ -83,7 +83,7 @@ function ChatInput({
             onKeyDown={handleKeyDown}
           />
           <button
-            className="bg-gray-500 text-white px-5 py-1.5 border-none rounded cursor-pointer"
+            className="bg-surface-overlay text-fg-muted px-5 py-1.5 border border-border cursor-pointer hover:text-fg"
             onClick={() => setEditingMessage(null)}
           >
             Cancel
@@ -91,7 +91,7 @@ function ChatInput({
         </div>
       ) : (
         <input
-          className="flex-1 bg-searchBar border-none outline-none text-white p-4 text-base rounded-lg disabled:cursor-not-allowed"
+          className="flex-1 bg-surface-overlay border border-border outline-none text-fg p-4 text-base disabled:cursor-not-allowed"
           type="text"
           autoFocus
           placeholder={
