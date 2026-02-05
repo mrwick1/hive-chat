@@ -1,5 +1,6 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { ImagePlus, Smile } from "lucide-react";
 import { Message } from "../../types";
 
 interface ChatInputProps {
@@ -62,8 +63,8 @@ function ChatInput({
   return (
     <div className="bottom px-5 py-2 flex items-center justify-between border-t border-border gap-5 mt-auto">
       <div className="icons flex gap-5">
-        <label htmlFor="file">
-          <img className="w-5 h-5 cursor-pointer" src="./img.png" alt="" />
+        <label htmlFor="file" className="cursor-pointer text-fg-muted hover:text-fg">
+          <ImagePlus size={20} />
         </label>
         <input
           className="hidden"
@@ -105,12 +106,12 @@ function ChatInput({
         />
       )}
       <div className="emoji relative" ref={emojiRef}>
-        <img
-          className="w-5 h-5 cursor-pointer"
-          src="./emoji.png"
-          alt=""
+        <button
+          className="cursor-pointer bg-transparent border-none text-fg-muted hover:text-fg"
           onClick={() => setEmojiOpen((prev) => !prev)}
-        />
+        >
+          <Smile size={20} />
+        </button>
         <div
           className={`picker absolute bottom-[50px] ${
             isDetailOpen ? "left-0" : "right-0"

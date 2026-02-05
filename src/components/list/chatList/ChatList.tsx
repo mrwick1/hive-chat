@@ -4,7 +4,7 @@ import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Search, Plus, Minus } from "lucide-react";
 import { ChatItem } from "../../../types";
 
 function ChatList() {
@@ -13,7 +13,7 @@ function ChatList() {
   const [addMode, setAddMode] = useState<boolean>(false);
   const [input, setInput] = useState("");
   const addUserRef = useRef<HTMLDivElement | null>(null);
-  const addUserButtonRef = useRef<HTMLImageElement | null>(null);
+  const addUserButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const { currentUser } = useUserStore();
   const { changeChat } = useChatStore();
@@ -105,7 +105,7 @@ function ChatList() {
       <div className="flex items-center gap-5 p-5 border-b border-border">
         {filteredChats.length > 0 && (
           <div className="flex-1 bg-surface-overlay border border-border flex items-center gap-5 p-2.5">
-            <img className="w-5 h-5" src="./search.png" alt="" />
+            <Search size={20} className="text-fg-muted" />
             <input
               className="bg-transparent border-none outline-none text-fg flex-1"
               type="text"
@@ -115,25 +115,25 @@ function ChatList() {
           </div>
         )}
         {filteredChats.length > 0 ? (
-          <img
-            className="w-9 h-9 bg-surface-overlay border border-border p-2.5 cursor-pointer"
-            src={addMode ? "./minus.png" : "./plus.png"}
+          <button
+            className="w-9 h-9 bg-surface-overlay border border-border p-2 cursor-pointer text-fg flex items-center justify-center"
             onClick={() => setAddMode((prev) => !prev)}
-            alt=""
             ref={addUserButtonRef}
-          />
+          >
+            {addMode ? <Minus size={16} /> : <Plus size={16} />}
+          </button>
         ) : (
-          <div className="mx-auto">
+          <div className="mx-auto flex items-center">
             <p className="inline-block text-fg mr-5">
               Click on the + icon and search for a user
             </p>
-            <img
-              className="w-9 h-9 inline-block bg-surface-overlay border border-border p-2.5 cursor-pointer"
-              src={addMode ? "./minus.png" : "./plus.png"}
+            <button
+              className="w-9 h-9 inline-flex items-center justify-center bg-surface-overlay border border-border p-2 cursor-pointer text-fg"
               onClick={() => setAddMode((prev) => !prev)}
-              alt=""
               ref={addUserButtonRef}
-            />
+            >
+              {addMode ? <Minus size={16} /> : <Plus size={16} />}
+            </button>
           </div>
         )}
       </div>

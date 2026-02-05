@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import { User } from "../../types";
 
 interface ChatHeaderProps {
@@ -26,12 +27,9 @@ function ChatHeader({ user, otherUserStatus, onToggleDetail }: ChatHeaderProps) 
         </div>
       </div>
       <div className="icons flex gap-5">
-        <img
-          className="w-5 h-5 cursor-pointer"
-          src="./info.png"
-          onClick={onToggleDetail}
-          alt=""
-        />
+        <button className="cursor-pointer bg-transparent border-none text-fg" onClick={onToggleDetail}>
+          <Info size={20} />
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ interface MessageListProps {
   currentUserId: string | undefined;
   imgPreviewUrl: string;
   menuOpenMessageId: string | null;
-  menuBtnRef: RefObject<HTMLImageElement | null>;
+  menuBtnRef: RefObject<HTMLButtonElement | null>;
   menuRef: RefObject<HTMLDivElement | null>;
   onToggleMenu: (messageId: string) => void;
   onEdit: (message: Message) => void;

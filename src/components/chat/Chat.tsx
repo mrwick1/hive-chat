@@ -44,7 +44,7 @@ function Chat({ setIsDetailOpen, isDetailOpen }: ChatProps) {
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore();
   const { currentUser } = useUserStore();
 
-  const menuBtnRef = useRef<HTMLImageElement | null>(null);
+  const menuBtnRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   // Listen to chat messages

@@ -1,4 +1,5 @@
 import { RefObject } from "react";
+import { MoreHorizontal } from "lucide-react";
 import { Message } from "../../types";
 import MessageContextMenu from "./MessageContextMenu";
 
@@ -6,7 +7,7 @@ interface MessageBubbleProps {
   message: Message;
   isOwn: boolean;
   menuOpen: boolean;
-  menuBtnRef: RefObject<HTMLImageElement | null>;
+  menuBtnRef: RefObject<HTMLButtonElement | null>;
   menuRef: RefObject<HTMLDivElement | null>;
   onToggleMenu: (messageId: string) => void;
   onEdit: (message: Message) => void;
@@ -58,16 +59,16 @@ function MessageBubble({
                 })}
             </span>
             {isOwn && (
-              <img
-                className="w-[10px] h-[10px] absolute bottom-[2.5px] right-0 cursor-pointer inline-block ml-1 mb-1"
-                src="./more1.png"
-                alt="More options"
+              <button
+                className="absolute bottom-[2.5px] right-0 cursor-pointer bg-transparent border-none text-fg-muted hover:text-fg inline-block ml-1 mb-1"
                 onClick={(e) => {
                   e.stopPropagation();
                   onToggleMenu(messageId);
                 }}
                 ref={menuBtnRef}
-              />
+              >
+                <MoreHorizontal size={10} />
+              </button>
             )}
           </span>
           {menuOpen && (
