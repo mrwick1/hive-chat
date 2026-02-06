@@ -19,7 +19,7 @@ function ChatHeader({ user, otherUserStatus, onToggleDetail }: ChatHeaderProps) 
         <div className="texts flex flex-col gap-0.5">
           <span className="text-lg font-bold text-fg">
             {user?.username}{" "}
-            <span className="text-xs font-light text-fg-muted ml-2">
+            <span className="text-xs font-light font-mono text-fg-muted ml-2">
               {otherUserStatus}
             </span>
           </span>

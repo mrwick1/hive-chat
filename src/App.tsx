@@ -50,7 +50,7 @@ useEffect(() => {
   }, [currentUser]);
 
   
-if(isLoading) return <div className="loading p-7 text-4xl bg-surface-raised text-fg border border-border">Loading...</div>
+if(isLoading) return <div className="loading p-8 text-4xl font-mono bg-surface-raised text-fg border border-border">Loading...</div>
 
   return (
     <div className={`${chatId ? 'w-[90vw] min-w-[640px] max-w-[1550px]' : 'w-[55vw] min-w-[640px]'} h-[90vh] bg-surface-raised border border-border flex`}>

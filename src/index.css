@@ -69,11 +69,22 @@ body {
   }
 }
 
-.addUserBDF {
-  backdrop-filter: saturate(180%) blur(20px);
-  background-color: rgba(26, 26, 26, 0.8);
-}
-
 .max-w-fit-plus-30 {
   max-width: calc(fit-content + 50px);
+}
+
+/* Emoji picker — Swiss Precision dark theme overrides */
+.EmojiPickerReact {
+  --epr-bg-color: #1A1A1A !important;
+  --epr-hover-bg-color: #2A2A2A !important;
+  --epr-category-label-bg-color: #1A1A1A !important;
+  --epr-search-input-bg-color: #111111 !important;
+  --epr-search-border-color: #2A2A2A !important;
+  --epr-text-color: #E8E8E8 !important;
+  --epr-category-icon-active-color: #0055FF !important;
+  --epr-highlight-color: #0055FF !important;
+  --epr-skin-tone-picker-menu-color: #1A1A1A !important;
+  border: 1px solid #2A2A2A !important;
+  border-radius: 0 !important;
+  font-family: "Space Grotesk Variable", system-ui, sans-serif !important;
 }

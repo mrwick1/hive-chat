@@ -37,7 +37,7 @@ function MessageContextMenu({
         )}
         <li>
           <button
-            className="block px-2 py-2 text-sm text-white hover:bg-addUserBDFH w-full text-left"
+            className="block px-2 py-2 text-sm text-fg hover:bg-surface-raised w-full text-left"
             onClick={() => {
               const confirmed = window.confirm(
                 "Are you sure you want to delete this message?"
