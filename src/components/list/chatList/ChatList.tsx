@@ -123,9 +123,9 @@ function ChatList() {
             {addMode ? <Minus size={16} /> : <Plus size={16} />}
           </button>
         ) : (
-          <div className="mx-auto flex items-center">
-            <p className="inline-block text-fg mr-5">
-              Click on the + icon and search for a user
+          <div className="mx-auto flex items-center gap-4">
+            <p className="inline-block text-sm text-fg-muted">
+              Search for a user to start chatting
             </p>
             <button
               className="w-9 h-9 inline-flex items-center justify-center bg-surface-overlay border border-border p-2 cursor-pointer text-fg"
@@ -179,9 +179,9 @@ function ChatList() {
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center gap-2 text-fg-muted">
-            <MessageCircle size={32} />
-            <p>No conversations yet</p>
+          <div className="flex flex-col items-center gap-3 text-fg-muted p-8">
+            <MessageCircle size={40} strokeWidth={1} />
+            <p className="text-sm font-mono tracking-wide">No conversations yet</p>
           </div>
         )}
       </div>

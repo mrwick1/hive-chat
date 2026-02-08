@@ -19,9 +19,16 @@ function ChatHeader({ user, otherUserStatus, onToggleDetail }: ChatHeaderProps) 
         <div className="texts flex flex-col gap-0.5">
           <span className="text-lg font-bold text-fg">
             {user?.username}{" "}
-            <span className="text-xs font-light font-mono text-fg-muted ml-2">
-              {otherUserStatus}
-            </span>
+            {otherUserStatus && (
+              <span className="inline-flex items-center gap-1.5 text-xs font-light font-mono text-fg-muted ml-2">
+                <span className={`w-2 h-2 rounded-full ${
+                  otherUserStatus === "Online" ? "bg-green-500" :
+                  otherUserStatus === "Away" ? "bg-yellow-500" :
+                  "bg-fg-muted"
+                }`} />
+                {otherUserStatus}
+              </span>
+            )}
           </span>
           <p className="text-xs font-normal text-fg-muted">{user?.about}</p>
         </div>
