@@ -47,7 +47,7 @@ useEffect(() => {
       window.removeEventListener("focus", handleTabFocus);
       window.removeEventListener("blur", handleTabBlur);
     }
-  }, [currentUser]);
+  }, [currentUser, updateUserStatus]);
 
   
 if(isLoading) return (

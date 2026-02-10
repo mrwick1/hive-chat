@@ -39,13 +39,12 @@ function ChatList() {
     return () => {
       unSub();
     };
-  }, [currentUser?.id]);
+  }, [currentUser]);
 
   async function handleSelect(chat: ChatItem): Promise<void> {
-    const userChats = chats.map((item) => {
-      const { user, ...rest } = item;
-      return rest;
-    });
+    // Strip `user` field — Firebase only stores chat metadata
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const userChats = chats.map(({ user, ...rest }) => rest);
 
     const chatIndex = userChats.findIndex(
       (item) => item.chatId === chat.chatId
