@@ -27,7 +27,7 @@ function Login() {
     url: "",
   });
 
-  const { currentUser, updateUserStatus } = useUserStore();
+  const { updateUserStatus } = useUserStore();
 
   const [registerLoading, setRegisterLoading] = useState<boolean>(false);
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
@@ -70,13 +70,13 @@ function Login() {
     }
 
     try {
-      await signInWithEmailAndPassword(
+      const res = await signInWithEmailAndPassword(
         auth,
         loginEmail as string,
         password as string
       );
       toast.success("You have successfully Logged in");
-      updateUserStatus(currentUser?.id as string, "Online");
+      updateUserStatus(res.user.uid, "Online");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -115,7 +115,12 @@ function Login() {
         password as string
       );
 
-      const imgUrl = await upload(avatar.file);
+      let imgUrl = "";
+      try {
+        imgUrl = (await upload(avatar.file)) as string;
+      } catch {
+        toast.warn("Avatar upload failed — using default avatar");
+      }
 
       await setDoc(doc(db, "users", res.user.uid), {
         username,
@@ -123,6 +128,7 @@ function Login() {
         avatar: imgUrl,
         about: "Hey! I'm on HiveChat",
         id: res.user.uid,
+        status: "Online",
         blocked: [],
       });
 

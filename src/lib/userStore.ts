@@ -45,6 +45,7 @@ export const useUserStore = create<UserStore>((set) => ({
     }
   },
   async updateUserStatus(cUser: string, userStatus: string): Promise<void> {
+    if (!cUser) return;
     const userDocRef = doc(db, "users", cUser);
 
     try {
