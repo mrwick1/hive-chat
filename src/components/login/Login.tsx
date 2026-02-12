@@ -21,17 +21,13 @@ interface avatarInterface {
   url: string | null;
 }
 
-// interface HTMLInputEvent extends Event {
-//   target: HTMLInputElement & EventTarget;
-// }
-
 function Login() {
   const [avatar, setAvatar] = useState<avatarInterface>({
     file: null,
     url: "",
   });
 
-  const { currentUser, updateUserStatus } = useUserStore();
+  const { updateUserStatus } = useUserStore();
 
   const [registerLoading, setRegisterLoading] = useState<boolean>(false);
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
@@ -74,13 +70,13 @@ function Login() {
     }
 
     try {
-      await signInWithEmailAndPassword(
+      const res = await signInWithEmailAndPassword(
         auth,
         loginEmail as string,
         password as string
       );
       toast.success("You have successfully Logged in");
-      updateUserStatus(currentUser?.id as string, "Online");
+      updateUserStatus(res.user.uid, "Online");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -98,7 +94,6 @@ function Login() {
 
     const { username, email, password } = Object.fromEntries(formData);
 
-    // VALIDATE INPUTS
     if (!username || !email || !password)
       return toast.warn("Please enter inputs!");
     if (!avatar.file) {
@@ -106,7 +101,6 @@ function Login() {
       return toast.warn("Please upload an avatar!");
     }
 
-    // VALIDATE UNIQUE USERNAME
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("username", "==", username));
     const querySnapshot = await getDocs(q);
@@ -121,7 +115,12 @@ function Login() {
         password as string
       );
 
-      const imgUrl = await upload(avatar.file);
+      let imgUrl = "";
+      try {
+        imgUrl = (await upload(avatar.file)) as string;
+      } catch {
+        toast.warn("Avatar upload failed — using default avatar");
+      }
 
       await setDoc(doc(db, "users", res.user.uid), {
         username,
@@ -129,6 +128,7 @@ function Login() {
         avatar: imgUrl,
         about: "Hey! I'm on HiveChat",
         id: res.user.uid,
+        status: "Online",
         blocked: [],
       });
 
@@ -153,47 +153,47 @@ function Login() {
   return (
     <div className="login w-full h-full flex justify-around items-center">
       <div className="item flex-1 flex flex-col items-center gap-5">
-        <h2 className="font-bold text-2xl">Welcome back</h2>
+        <h2 className="font-bold text-2xl text-fg">Welcome back</h2>
         <form
           className="flex flex-col items-center justify-center gap-5"
           action=""
           onSubmit={handleLogin}
         >
           <input
-            className="px-8 py-3 border-none outline-none bg-background text-white rounded"
+            className="px-8 py-3 border border-border outline-none bg-surface-overlay text-fg"
             placeholder="Email or Username"
             name="email"
           />
           <input
-            className="px-8 py-3 border-none outline-none bg-background text-white rounded"
+            className="px-8 py-3 border border-border outline-none bg-surface-overlay text-fg"
             type="password"
             placeholder="Password"
             name="password"
           />
           <button
             disabled={loginLoading}
-            className="px-8 py-2 border-none bg-blue-500 text-white rounded cursor-pointer font-medium disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="px-8 py-2 border-none bg-accent text-fg cursor-pointer font-medium disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loginLoading ? "Loading" : "Login"}
           </button>
         </form>
       </div>
-      <div className="seperator h-[80%] w-[0.5px] bg-slate-500"></div>
+      <div className="seperator h-[80%] w-[1px] bg-border"></div>
       <div className="item flex-1 flex flex-col items-center gap-5">
-        <h2 className="font-bold text-2xl">Create an account</h2>
+        <h2 className="font-bold text-2xl text-fg">Create an account</h2>
         <form
           onSubmit={handleRegister}
           className="flex flex-col items-center justify-center gap-5"
           action=""
         >
           <label
-            className="w-full flex items-center justify-evenly cursor-pointer underline"
+            className="w-full flex items-center justify-evenly cursor-pointer underline text-fg-muted"
             htmlFor="file"
           >
             <img
               src={avatar.url || "./avatar.png"}
               alt=""
-              className="w-[50px] h-[50px] rounded-lg object-cover opacity-60"
+              className="w-[50px] h-[50px] object-cover opacity-60"
             />
             Upload an image
           </label>
@@ -204,26 +204,26 @@ function Login() {
             onChange={handleAvatar}
           />
           <input
-            className="px-8 py-3 border-none outline-none bg-background text-white rounded"
+            className="px-8 py-3 border border-border outline-none bg-surface-overlay text-fg"
             type="text"
             placeholder="Username"
             name="username"
           />
           <input
-            className="px-8 py-3 border-none outline-none bg-background text-white rounded"
+            className="px-8 py-3 border border-border outline-none bg-surface-overlay text-fg"
             type="email"
             placeholder="Email"
             name="email"
           />
           <input
-            className="px-8 py-3 border-none outline-none bg-background text-white rounded"
+            className="px-8 py-3 border border-border outline-none bg-surface-overlay text-fg"
             type="password"
             placeholder="Password"
             name="password"
           />
           <button
             disabled={registerLoading}
-            className="px-8 py-2 border-none bg-blue-500 text-white rounded cursor-pointer font-medium disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="px-8 py-2 border-none bg-accent text-fg cursor-pointer font-medium disabled:cursor-not-allowed disabled:opacity-50"
           >
             {registerLoading ? "Loading" : "Sign up"}
           </button>

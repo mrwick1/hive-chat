@@ -4,29 +4,8 @@ import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
-import Lottie from "react-lottie";
-
-import eyeAnimationData from "../../../../public/Eye.json";
-
-interface User {
-  username: string;
-  email: string;
-  avatar: string;
-  about: string;
-  id: string;
-  status: string;
-  blocked: string[];
-}
-
-interface ChatItem {
-  username: string;
-  receiverId: string;
-  chatId: string;
-  lastMessage: string;
-  updatedAt: number;
-  user: User;
-  isSeen: boolean;
-}
+import { MessageCircle, Search, Plus, Minus } from "lucide-react";
+import { ChatItem } from "../../../types";
 
 function ChatList() {
   const [chats, setChats] = useState<ChatItem[]>([]);
@@ -34,7 +13,7 @@ function ChatList() {
   const [addMode, setAddMode] = useState<boolean>(false);
   const [input, setInput] = useState("");
   const addUserRef = useRef<HTMLDivElement | null>(null);
-  const addUserButtonRef = useRef<HTMLImageElement | null>(null);
+  const addUserButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const { currentUser } = useUserStore();
   const { changeChat } = useChatStore();
@@ -53,8 +32,6 @@ function ChatList() {
           return { ...item, user };
         });
         const chatData = await Promise.all(promises);
-        // console.log(chatData);
-
         setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
       }
     );
@@ -62,13 +39,12 @@ function ChatList() {
     return () => {
       unSub();
     };
-  }, [currentUser?.id]);
+  }, [currentUser]);
 
   async function handleSelect(chat: ChatItem): Promise<void> {
-    const userChats = chats.map((item) => {
-      const { user, ...rest } = item;
-      return rest;
-    });
+    // Strip `user` field — Firebase only stores chat metadata
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const userChats = chats.map(({ user, ...rest }) => rest);
 
     const chatIndex = userChats.findIndex(
       (item) => item.chatId === chat.chatId
@@ -84,17 +60,13 @@ function ChatList() {
           chats: userChats,
         });
         changeChat(chat.chatId, chat.user);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error);
-        }
+      } catch {
+        // chat selection failed silently
       }
     }
   }
 
   useEffect(() => {
-    // console.log("triggered");
-
     if (input) {
       const filtered = chats.filter((c) =>
         c.user.username
@@ -107,8 +79,6 @@ function ChatList() {
       setFilteredChats(chats);
     }
   }, [input, chats]);
-
-  // console.log(chats);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -129,23 +99,14 @@ function ChatList() {
     };
   }, []);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: eyeAnimationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   return (
     <div className={`flex-1 ${filteredChats.length > 0 ? "overflow-y-auto" : "overflow-hidden"}`}>
-      <div className="flex items-center gap-5 p-5 border-b-2 border-none">
+      <div className="flex items-center gap-5 p-5 border-b border-border">
         {filteredChats.length > 0 && (
-          <div className="flex-1 bg-searchBar flex items-center gap-5 rounded-lg p-2.5">
-            <img className="w-5 h-5" src="./search.png" alt="" />
+          <div className="flex-1 bg-surface-overlay border border-border flex items-center gap-5 p-2.5">
+            <Search size={20} className="text-fg-muted" />
             <input
-              className="bg-transparent border-none outline-none text-white flex-1"
+              className="bg-transparent border-none outline-none text-fg flex-1"
               type="text"
               placeholder="Search"
               onChange={(e) => setInput(e.target.value)}
@@ -153,25 +114,25 @@ function ChatList() {
           </div>
         )}
         {filteredChats.length > 0 ? (
-          <img
-            className="w-9 h-9 bg-searchBar p-2.5 rounded-lg cursor-pointer"
-            src={addMode ? "./minus.png" : "./plus.png"}
+          <button
+            className="w-9 h-9 bg-surface-overlay border border-border p-2 cursor-pointer text-fg flex items-center justify-center"
             onClick={() => setAddMode((prev) => !prev)}
-            alt=""
             ref={addUserButtonRef}
-          />
+          >
+            {addMode ? <Minus size={16} /> : <Plus size={16} />}
+          </button>
         ) : (
-          <div className="mx-auto">
-            <p className="inline-block text-white mr-5">
-              Click on the + icon and search for a user
+          <div className="mx-auto flex items-center gap-4">
+            <p className="inline-block text-sm text-fg-muted">
+              Search for a user to start chatting
             </p>
-            <img
-              className="w-9 h-9 inline-block bg-searchBar p-2.5 rounded-lg cursor-pointer"
-              src={addMode ? "./minus.png" : "./plus.png"}
+            <button
+              className="w-9 h-9 inline-flex items-center justify-center bg-surface-overlay border border-border p-2 cursor-pointer text-fg"
               onClick={() => setAddMode((prev) => !prev)}
-              alt=""
               ref={addUserButtonRef}
-            />
+            >
+              {addMode ? <Minus size={16} /> : <Plus size={16} />}
+            </button>
           </div>
         )}
       </div>
@@ -183,10 +144,10 @@ function ChatList() {
         {filteredChats.length > 0 ? (
           filteredChats.map((chat) => (
             <div
-              className={`flex self-center  w-[90%] items-center gap-5 px-5 py-3 cursor-pointer border-b-2 border-none rounded-2xl ${
+              className={`flex self-center w-[90%] items-center gap-5 px-5 py-3 cursor-pointer border-b border-border ${
                 chat?.isSeen
-                  ? "bg-transparent hover:bg-searchBar"
-                  : "bg-blue-400"
+                  ? "bg-transparent hover:bg-surface-overlay"
+                  : "bg-accent"
               }`}
               key={chat.chatId}
               onClick={() => handleSelect(chat)}
@@ -208,7 +169,7 @@ function ChatList() {
                 </span>
                 <p
                   className={`text-sm font-normal whitespace-nowrap 2xl:max-w-[280px] xl:max-w-[200px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[50px] max-w-[30px] text-ellipsis overflow-hidden ${
-                    chat?.isSeen ? "text-textSub" : "text-white"
+                    chat?.isSeen ? "text-fg-muted" : "text-fg"
                   }`}
                 >
                   {chat.lastMessage}
@@ -217,16 +178,9 @@ function ChatList() {
             </div>
           ))
         ) : (
-          <div className="">
-            <p className="">Oh no!! It's so lonely here..</p>
-            <div className="text-center">
-              <span className="inline-block">
-                <Lottie options={defaultOptions} height={24} width={24} />
-              </span>
-              <span className="inline-block">
-                <Lottie options={defaultOptions} height={24} width={24} />
-              </span>
-            </div>
+          <div className="flex flex-col items-center gap-3 text-fg-muted p-8">
+            <MessageCircle size={40} strokeWidth={1} />
+            <p className="text-sm font-mono tracking-wide">No conversations yet</p>
           </div>
         )}
       </div>

@@ -1,55 +1,21 @@
 import { create } from 'zustand'
 import { db } from './firebase'
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { User } from '../types';
 
-interface User {
-    username: string;
-    email: string;
-    avatar: string;
-    about: string;
-    id: string;
-    status: string;
-    blocked: string[];
-  }
-  
-  interface UserStore {
-    currentUser: User | null;
-    isLoading: boolean;
-    // fetchUserInfo: (uid: string) => Promise<void>;
-    fetchUserInfo: (uid: string) => void;
-    // setUserStatus: (uid: string, status: string) => Promise<void>;
-    unsubscribeUserInfo: () => void;
-    updateUserStatus: (uid: string, status: string) => Promise<void>;
-  }
+interface UserStore {
+  currentUser: User | null;
+  isLoading: boolean;
+  fetchUserInfo: (uid: string) => void;
+  unsubscribeUserInfo: () => void;
+  updateUserStatus: (uid: string, status: string) => Promise<void>;
+}
 
-  let unsubscribe: (() => void) | null = null;
+let unsubscribe: (() => void) | null = null;
 
 export const useUserStore = create<UserStore>((set) => ({
   currentUser: null,
   isLoading: true,
-  // fetchUserInfo: async (uid: string) => {
-  //   if(!uid) return set({currentUser: null, isLoading: false})
-  //       try {
-  //           const docRef = doc(db, "users", uid);
-  //           const docSnap = await getDoc(docRef)
-
-  //           if(docSnap.exists()) {
-  //               const userData = docSnap.data() as User;
-  //               set({currentUser: userData, isLoading: false})
-  //           } else {
-  //               set({currentUser: null, isLoading: false})
-  //           }
-  //       } catch (error) {
-  //           return set({currentUser: null, isLoading: false})
-  //       }
-  // }
-  // updateUserStatus : async (uid: string, status: string) => {
-  //   const userRef = doc(db, "users", uid);
-  //   await updateDoc(userRef, {
-  //     status, // Update the user's status
-  //     lastSeen: serverTimestamp(), // Update the last seen time
-  //   });
-  // },
   fetchUserInfo(uid: string) {
     if (!uid) return set({ currentUser: null, isLoading: false });
 
@@ -61,8 +27,6 @@ export const useUserStore = create<UserStore>((set) => ({
 
     set({ isLoading: true });
 
-    // this.updateUserStatus(uid, "active");
-
     unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const userData = docSnap.data() as User;
@@ -70,8 +34,7 @@ export const useUserStore = create<UserStore>((set) => ({
       } else {
         set({ currentUser: null, isLoading: false });
       }
-    }, (error) => {
-      console.error("Error fetching user data:", error);
+    }, () => {
       set({ currentUser: null, isLoading: false });
     });
   },
@@ -81,15 +44,16 @@ export const useUserStore = create<UserStore>((set) => ({
       unsubscribe = null;
     }
   },
-  async updateUserStatus (cUser: string, userStatus: string): Promise<void> {
+  async updateUserStatus(cUser: string, userStatus: string): Promise<void> {
+    if (!cUser) return;
     const userDocRef = doc(db, "users", cUser);
-    
+
     try {
       await updateDoc(userDocRef, {
         status: userStatus,
       });
-    } catch(err) { 
-    if(err instanceof Error) console.log(err)
+    } catch {
+      // status update failed silently
     }
   }
 }))

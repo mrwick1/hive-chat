@@ -1,19 +1,22 @@
 import { toast } from "react-toastify";
 import { auth } from "../../../lib/firebase";
 import { useUserStore } from "../../../lib/userStore";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { MoreVertical, Pencil } from "lucide-react";
 import EditAbout from "../chatList/editAbout/EditAbout";
 import { useEffect, useRef, useState } from "react";
+
 function UserInfo() {
   const [isEditAboutOpen, setIsEditAboutOpen] = useState(false);
-  const editAboutRef = useRef<HTMLDivElement | null>(null); 
-  const editButtonRef = useRef<HTMLImageElement | null>(null);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const editAboutRef = useRef<HTMLDivElement | null>(null);
+  const editButtonRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const { currentUser, updateUserStatus } = useUserStore();
 
   const optionClickHandler = async () => {
-    if(currentUser) await updateUserStatus(currentUser.id, "Offline");
+    if (currentUser) await updateUserStatus(currentUser.id, "Offline");
     await auth.signOut();
     toast.success("You have successfully Logged out");
   };
@@ -24,15 +27,23 @@ function UserInfo() {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         editAboutRef.current &&
-        !editAboutRef.current.contains(event.target as Node) && editButtonRef.current &&
+        !editAboutRef.current.contains(event.target as Node) &&
+        editButtonRef.current &&
         !editButtonRef.current.contains(event.target as Node)
       ) {
         setIsEditAboutOpen(false);
       }
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -41,62 +52,60 @@ function UserInfo() {
 
   return (
     <div>
-<div className="p-5 flex items-center justify-between">
-      <div className="flex items-center gap-5">
-        <img
-          className="w-[50px] h-[50px] min-w-[50px] min-h-[50px] rounded-[50%] object-cover"
-          src={currentUser?.avatar || "./avatar.png"}
-          alt=""
-        />
-        <div className="flex flex-col">
-        <h2 className="text-xl	font-bold">{currentUser?.username}</h2>
-        <p className="text-xs font-normal text-gray-400">{currentUser?.about}</p>
+      <div className="p-5 flex items-center justify-between border-b border-border">
+        <div className="flex items-center gap-5">
+          <img
+            className="w-[50px] h-[50px] min-w-[50px] min-h-[50px] rounded-full object-cover"
+            src={currentUser?.avatar || "./avatar.png"}
+            alt=""
+          />
+          <div className="flex flex-col">
+            <h2 className="text-xl font-bold text-fg">{currentUser?.username}</h2>
+            <p className="text-xs font-normal text-fg-muted">
+              {currentUser?.about}
+            </p>
+          </div>
         </div>
-        
-      </div>
-      <div className="flex gap-5">
-        <Menu as="div" className="relative">
-          <MenuButton>
-            <img className="w-5 h-5 cursor-pointer" src="./more.png" alt="" />
-            <MenuItems
-              transition
-              className="absolute right-0 z-10 mt-1 w-32 origin-top-right rounded-md bg-searchBar shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+        <div className="flex gap-5">
+          <div className="relative" ref={menuRef}>
+            <button
+              className="cursor-pointer bg-transparent border-none text-fg"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              ref={menuButtonRef}
             >
-              <div className="py-1">
-                <MenuItem>
+              <MoreVertical size={20} />
+            </button>
+            {isMenuOpen && (
+              <div className="absolute right-0 z-10 mt-1 w-32 bg-surface-overlay border border-border shadow-lg">
+                <div className="py-1">
                   <p
-                    className="block px-4 py-1 text-sm text-white data-[focus]:bg-searchBar data-[focus]:text-slate-200"
-                    onClick={optionClickHandler}
+                    className="block px-4 py-1 text-sm text-fg cursor-pointer hover:bg-surface-raised"
+                    onClick={() => {
+                      optionClickHandler();
+                      setIsMenuOpen(false);
+                    }}
                   >
                     Logout
                   </p>
-                </MenuItem>
+                </div>
               </div>
-            </MenuItems>
-          </MenuButton>
-        </Menu>
-        <img
-          className="w-5 h-5 cursor-pointer hidden"
-          src="./video.png"
-          alt=""
-        />
-        <img
-          className="w-5 h-5 cursor-pointer"
-          src="./edit.png"
-          onClick={handleAbout}
-          alt=""
-          ref={editButtonRef}
-        />
+            )}
+          </div>
+          <button
+            className="cursor-pointer bg-transparent border-none text-fg"
+            onClick={handleAbout}
+            ref={editButtonRef}
+          >
+            <Pencil size={20} />
+          </button>
+        </div>
       </div>
-      
-    </div>
-    {isEditAboutOpen && (
-        <div ref={editAboutRef}> {/* Reference added to the EditAbout wrapper */}
-          <EditAbout setIsEditAboutOpen={setIsEditAboutOpen}  />
+      {isEditAboutOpen && (
+        <div ref={editAboutRef}>
+          <EditAbout setIsEditAboutOpen={setIsEditAboutOpen} />
         </div>
       )}
     </div>
-    
   );
 }
 

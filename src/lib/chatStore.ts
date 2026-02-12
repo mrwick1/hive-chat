@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import { useUserStore } from "./userStore";
-
-interface User {
-  username: string;
-  email: string;
-  avatar: string;
-  about: string;
-  id: string;
-  status: string;
-  blocked: string[];
-}
+import { User } from "../types";
 
 interface ChatStore {
   chatId: string | null;

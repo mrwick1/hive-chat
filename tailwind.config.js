@@ -4,19 +4,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        chatscreen: "rgba(17, 25, 40, 0.75)",
-        // searchBar: "rgba(17, 25, 40, 0.50)",
-        searchBar: "#2E333D",
-        // background: "rgba(17, 25, 40, 0.78)",
-        background: "#2E333D",
-        chatscreen2: "#202329",
-        bgBlacker: "#131313",
-        textSub: "#9e9e9e",
-        sendBtn: "#f59e0b",
-        addUserBDFH: "rgba(46, 51, 61, 0.1)",
+        surface: {
+          DEFAULT: "#0A0A0A",
+          raised: "#111111",
+          overlay: "#1A1A1A",
+        },
+        fg: {
+          DEFAULT: "#E8E8E8",
+          muted: "#888888",
+        },
+        border: {
+          DEFAULT: "#2A2A2A",
+        },
+        accent: "#0055FF",
+        bubble: {
+          own: "#0055FF",
+          other: "#1A1A1A",
+        },
       },
       fontSize: {
         xxs: "0.625rem",
+      },
+      fontFamily: {
+        sans: ["'Space Grotesk Variable'", "system-ui", "sans-serif"],
+        mono: ["'JetBrains Mono Variable'", "monospace"],
       },
     },
   },
